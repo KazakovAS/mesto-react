@@ -1,4 +1,8 @@
-function Card({card, currentUser}) {
+function Card({ card, currentUser, onCardClick }) {
+  function handleClick() {
+    onCardClick(card);
+  }
+
   return (
     <li className="places__item">
       <article className="place">
@@ -11,6 +15,7 @@ function Card({card, currentUser}) {
           className="place__image"
           src={card.link}
           alt={card.name}
+          onClick={handleClick}
         />
           <div className="place__info">
             <h2 className="place__name">{card.name}</h2>

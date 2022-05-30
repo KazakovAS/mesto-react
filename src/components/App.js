@@ -3,11 +3,13 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
+import ImagePopup from './ImagePopup';
 
 function App() {
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = useState(false);
+  const [ isEditProfilePopupOpen, setEditProfilePopupOpen ] = useState(false);
+  const [ isAddPlacePopupOpen, setAddPlacePopupOpen ] = useState(false);
+  const [ isEditAvatarPopupOpen, setEditAvatarPopupOpen ] = useState(false);
+  const [ selectedCard, setSelectedCard ] = useState({});
 
   function handleEditAvatarClick() {
     setEditAvatarPopupOpen(true);
@@ -21,10 +23,15 @@ function App() {
     setAddPlacePopupOpen(true);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
     setEditAvatarPopupOpen(false);
+    setSelectedCard({});
   }
 
   return (
@@ -34,7 +41,7 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onEditProfile={handleEditProfileClick}
         onAddPlace={handleAddPlaceClick}
-        // onCardClick={handleCardClick}
+        onCardClick={handleCardClick}
       />
       <Footer />
 
@@ -129,6 +136,11 @@ function App() {
             <span className="form__field-error" id="error-avatar-image"></span>
         </label>
       </PopupWithForm>
+
+      <ImagePopup
+        card={selectedCard}
+        onClose={closeAllPopups}
+      />
     </div>
   );
 }

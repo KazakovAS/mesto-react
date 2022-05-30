@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from '../utils/Api';
+import api from '../utils/api';
 import Card from './Card';
 
 function Main(props) {
@@ -17,7 +17,6 @@ function Main(props) {
         setUserDescription(profile.about);
         setUserAvatar(profile.avatar);
         setCards(cards);
-        // console.log(cards)
       })
       .catch(console.error);
   }, []);
@@ -70,7 +69,7 @@ function Main(props) {
             <Card
               card={card}
               currentUser={userId}
-              // onCardClick={props.onCardClick}
+              onCardClick={props.onCardClick}
               key={card._id}
             />
           )}

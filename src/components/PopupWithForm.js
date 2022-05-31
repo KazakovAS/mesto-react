@@ -1,7 +1,7 @@
-function PopupWithForm(props) {
+function PopupWithForm(props, { buttonText="Сохранить" }) {
   return (
     <section
-      className={`popup popup_type_${props.name}-popup ${props.isOpen ? 'popup_is-opened' : ''} `}
+      className={`popup ${props.isOpen && 'popup_is-opened'}`}
       role="dialog"
     >
       <div className="popup__container">
@@ -20,7 +20,7 @@ function PopupWithForm(props) {
 
           { props.children }
 
-          <button className="form__submit">{ props.buttonText }</button>
+          <button className="form__submit">{ buttonText }</button>
         </form>
       </div>
     </section>

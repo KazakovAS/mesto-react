@@ -80,7 +80,6 @@ function App() {
         isOpen={isEditProfilePopupOpen}
         name="user-info-edit"
         title="Редактировать профиль"
-        buttonText="Сохранить"
         onClose={closeAllPopups}
       >
         <label className="form__item">
@@ -122,7 +121,6 @@ function App() {
         isOpen={isEditAvatarPopupOpen}
         name="avatar-edit"
         title="Обновить аватар"
-        buttonText="Сохранить"
         onClose={closeAllPopups}
       >
         <label className="form__item">

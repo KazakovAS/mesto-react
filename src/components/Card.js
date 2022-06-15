@@ -8,7 +8,7 @@ function Card({ card, onCardClick }) {
     `place__remove-button ${isOwn ? 'place__remove-button_visible' : 'place__remove-button_hidden'}`
   );
   const isLiked = card.likes.some(i => i._id === currentUser._id);
-  const cardLikeButtonClassName = `...`;
+  const cardLikeButtonClassName = `place__like-button ${isLiked && 'place__like-button_active'}`;
 
   function handleClick() {
     onCardClick(card);
@@ -28,7 +28,7 @@ function Card({ card, onCardClick }) {
           <div className="place__info">
             <h2 className="place__name">{card.name}</h2>
             <button
-              className="place__like-button"
+              className={cardLikeButtonClassName}
               aria-label="Нравится"
             >
               <span className="place__like-count">{card.likes.length}</span>

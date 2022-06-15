@@ -13,15 +13,16 @@ function App() {
   const [ isEditAvatarPopupOpen, setEditAvatarPopupOpen ] = useState(false);
   const [ selectedCard, setSelectedCard ] = useState({});
   const [ currentUser, setCurrentUser ] = useState({});
+  const [ cards, setCards ] = useState([]);
 
   useEffect(() => {
-    Promise.all([api.getProfile()])
-      .then(([data]) => {
+    Promise.all([api.getProfile(), api.getInitialCards()])
+      .then(([data, cards]) => {
         // setUserId(profile._id);
         // setUserName(profile.name);
         // setUserDescription(profile.about);
         // setUserAvatar(profile.avatar);
-        // setCards(cards);
+        setCards(cards);
         setCurrentUser(data);
       })
       .catch(console.error);
@@ -43,6 +44,29 @@ function App() {
     setSelectedCard(card);
   }
 
+  // function handleCardLike(card) {
+  //   const isLiked = card.likes.some(i => i._id === currentUser._id) ? true : false;
+  //
+  //   (isLiked ? api.removeLike(card._id) : api.addLike(card._id))
+  //     .then(newCard => {
+  //       setCards((state) => state.map(currentCard => currentCard._id === card._id ? newCard : currentCard));
+  //     })
+  //     .catch(err => showError(err));
+  // }
+  //
+  // function handleCardDeleteClick(cardId) {
+  //   setCardDeleteId(cardId);
+  //   setPopupConfirmationOpen(true);
+  // }
+
+  // function handleCardLike(card) {
+  //   const isLiked = card.likes.some(i => i._id === currentUser._id);
+  //
+  //   api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+  //     setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+  //   });
+  // }
+
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
@@ -55,10 +79,13 @@ function App() {
       <div className="page">
         <Header />
         <Main
+          cards={cards}
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
+          // onCardLike={handleCardLike}
+          // onCardDelete={handleCardDeleteClick}
         />
         <Footer />
 

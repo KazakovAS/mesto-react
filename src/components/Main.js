@@ -1,9 +1,9 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card from './Card';
 
 function Main(props) {
-  const [ cards, setCards ] = useState([]);
+  const { cards, onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete } = props;
   const currentUser = useContext(CurrentUserContext);
 
   return(
@@ -54,7 +54,9 @@ function Main(props) {
             cards.map((card) => (
               <Card
                 card={card}
-                onCardClick={props.onCardClick}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
                 key={card._id}
               />
             )

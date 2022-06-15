@@ -1,25 +1,10 @@
-import { useState, useEffect } from "react";
-import api from '../utils/api';
+import { useState, useContext } from "react";
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Card from './Card';
 
 function Main(props) {
-  const [ userId, setUserId ] = useState('');
-  const [ userName, setUserName ] = useState('');
-  const [ userDescription, setUserDescription ] = useState('');
-  const [ userAvatar, setUserAvatar ] = useState('');
   const [ cards, setCards ] = useState([]);
-
-  useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
-      .then(([profile, cards]) => {
-        setUserId(profile._id);
-        setUserName(profile.name);
-        setUserDescription(profile.about);
-        setUserAvatar(profile.avatar);
-        setCards(cards);
-      })
-      .catch(console.error);
-  }, []);
+  const currentUser = useContext(CurrentUserContext);
 
   return(
     <main className="content">
@@ -28,7 +13,7 @@ function Main(props) {
           <div className="user__avatar">
             <img
               className="user__avatar-image"
-              src={userAvatar}
+              src={`${currentUser.avatar}`}
               alt="Аватар пользователя"
             />
             <button
@@ -41,7 +26,7 @@ function Main(props) {
 
           <figcaption className="user__caption">
             <div className="user__nickname">
-              <h1 className="user__nickname-text">{userName}</h1>
+              <h1 className="user__nickname-text">{currentUser.name}</h1>
               <button
                 className="user__info-edit-button"
                 aria-label="Редактировать профиль"
@@ -50,7 +35,7 @@ function Main(props) {
               >
               </button>
             </div>
-            <p className="user__description">{userDescription}</p>
+            <p className="user__description">{currentUser.about}</p>
           </figcaption>
         </figure>
 
@@ -69,7 +54,6 @@ function Main(props) {
             cards.map((card) => (
               <Card
                 card={card}
-                currentUser={userId}
                 onCardClick={props.onCardClick}
                 key={card._id}
               />

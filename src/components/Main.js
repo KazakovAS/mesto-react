@@ -19,7 +19,7 @@ function Main(props) {
             <button
               className="user__avatar-edit-button"
               aria-label="Редактировать картинку профиля"
-              onClick={props.onEditAvatar}
+              onClick={onEditAvatar}
             >
             </button>
           </div>
@@ -31,7 +31,7 @@ function Main(props) {
                 className="user__info-edit-button"
                 aria-label="Редактировать профиль"
                 type="button"
-                onClick={props.onEditProfile}
+                onClick={onEditProfile}
               >
               </button>
             </div>
@@ -43,7 +43,7 @@ function Main(props) {
           className="profile__place-add-button"
           aria-label="Добавить место"
           type="button"
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
         >
         </button>
       </section>

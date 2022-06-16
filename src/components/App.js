@@ -18,10 +18,6 @@ function App() {
   useEffect(() => {
     Promise.all([api.getProfile(), api.getInitialCards()])
       .then(([data, cards]) => {
-        // setUserId(profile._id);
-        // setUserName(profile.name);
-        // setUserDescription(profile.about);
-        // setUserAvatar(profile.avatar);
         setCards(cards);
         setCurrentUser(data);
       })

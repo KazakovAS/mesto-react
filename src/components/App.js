@@ -10,15 +10,18 @@ import api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 function App() {
-  const [ isEditProfilePopupOpen, setEditProfilePopupOpen ] = useState(false);
-  const [ isAddPlacePopupOpen, setAddPlacePopupOpen ] = useState(false);
-  const [ isEditAvatarPopupOpen, setEditAvatarPopupOpen ] = useState(false);
-  const [ selectedCard, setSelectedCard ] = useState({});
   const [ currentUser, setCurrentUser ] = useState({});
+  const [ isEditProfilePopupOpen, setEditProfilePopupOpen ] = useState(false);
+  const [ isEditAvatarPopupOpen, setEditAvatarPopupOpen ] = useState(false);
+  const [ isAddPlacePopupOpen, setAddPlacePopupOpen ] = useState(false);
   const [ cards, setCards ] = useState([]);
+  const [ selectedCard, setSelectedCard ] = useState({});
 
   useEffect(() => {
-    Promise.all([api.getProfile(), api.getInitialCards()])
+    Promise.all([
+      api.getProfile(),
+      api.getInitialCards()
+    ])
       .then(([data, cards]) => {
         setCards(cards);
         setCurrentUser(data);
@@ -60,28 +63,20 @@ function App() {
       .catch(console.error);
   }
 
-  // function handleCardLike(card) {
-  //   const isLiked = card.likes.some(i => i._id === currentUser._id) ? true : false;
-  //
-  //   (isLiked ? api.removeLike(card._id) : api.addLike(card._id))
-  //     .then(newCard => {
-  //       setCards((state) => state.map(currentCard => currentCard._id === card._id ? newCard : currentCard));
-  //     })
-  //     .catch(err => showError(err));
-  // }
-  //
-  // function handleCardDeleteClick(cardId) {
-  //   setCardDeleteId(cardId);
-  //   setPopupConfirmationOpen(true);
-  // }
+  function handleLikeClick(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-  // function handleCardLike(card) {
-  //   const isLiked = card.likes.some(i => i._id === currentUser._id);
-  //
-  //   api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-  //     setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-  //   });
-  // }
+    (isLiked ? api.deleteLike(card._id) : api.addLike(card._id))
+      .then(data => {
+        setCards((state) => state.map(currentCard => currentCard._id === card._id ? data : currentCard));
+      })
+      .catch(console.error);
+  }
+
+  function handleDeleteClick(cardId) {
+    // setCardDeleteId(cardId);
+    // setPopupConfirmationOpen(true);
+  }
 
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
@@ -100,8 +95,8 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
           onCardClick={handleCardClick}
-          // onCardLike={handleCardLike}
-          // onCardDelete={handleCardDeleteClick}
+          onCardLike={handleLikeClick}
+          onCardDelete={handleDeleteClick}
         />
         <Footer />
 

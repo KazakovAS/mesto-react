@@ -48,7 +48,7 @@ function EditProfilePopup(props) {
           className="form__field"
           type="text"
           name="user-nickname"
-          value={name}
+          value={name || ''}
           onChange={handleChange}
           placeholder="Имя"
           minLength="2"
@@ -62,7 +62,7 @@ function EditProfilePopup(props) {
           className="form__field"
           type="text"
           name="user-description"
-          value={description}
+          value={description || ''}
           onChange={handleChange}
           placeholder="О себе"
           minLength="2"

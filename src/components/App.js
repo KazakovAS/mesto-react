@@ -5,6 +5,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
@@ -43,6 +44,15 @@ function App() {
 
   function handleUpdateUser({ name, about }) {
     api.editProfile(name, about)
+      .then(data => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
+
+  function handleUpdateAvatar({avatar}) {
+    api.editAvatar(avatar)
       .then(data => {
         setCurrentUser(data);
         closeAllPopups();
@@ -101,6 +111,12 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
+
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
           name="place-add"
@@ -140,24 +156,6 @@ function App() {
         {/*  onClose={closeAllPopups}*/}
         {/*>*/}
         {/*</PopupWithForm>*/}
-
-        <PopupWithForm
-          isOpen={isEditAvatarPopupOpen}
-          name="avatar-edit"
-          title="Обновить аватар"
-          onClose={closeAllPopups}
-        >
-          <label className="form__item">
-            <input
-              className="form__field"
-              type="url"
-              name="avatar-image"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span className="form__field-error" id="error-avatar-image"></span>
-          </label>
-        </PopupWithForm>
 
         <ImagePopup
           card={selectedCard}

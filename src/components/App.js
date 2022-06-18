@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
@@ -78,6 +78,15 @@ function App() {
     // setPopupConfirmationOpen(true);
   }
 
+  function handleAddPlaceSubmit({ name, link }) {
+    api.addCard(name, link)
+      .then(newCard => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+      })
+      .catch(console.error);
+  }
+
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setAddPlacePopupOpen(false);
@@ -112,36 +121,11 @@ function App() {
           onUpdateAvatar={handleUpdateAvatar}
         />
 
-        <PopupWithForm
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
-          name="place-add"
-          title="Новое место"
-          buttonText="Создать"
           onClose={closeAllPopups}
-        >
-          <label className="form__item">
-            <input
-              className="form__field"
-              type="text"
-              name="place-name"
-              placeholder="Название"
-              minLength="2"
-              maxLength="30"
-              required
-            />
-            <span className="form__field-error" id="error-place-name">Вы пропустили это поле.</span>
-          </label>
-          <label className="form__item">
-            <input
-              className="form__field"
-              type="url"
-              name="place-image"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span className="form__field-error" id="error-place-image"></span>
-          </label>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         {/*<PopupWithForm*/}
         {/*  isOpen={isEditProfilePopupOpen}*/}

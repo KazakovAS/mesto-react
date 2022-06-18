@@ -4,6 +4,7 @@ import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
 import api from "../utils/api";
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
@@ -38,6 +39,15 @@ function App() {
 
   function handleCardClick(card) {
     setSelectedCard(card);
+  }
+
+  function handleUpdateUser({ name, about }) {
+    api.editProfile(name, about)
+      .then(data => {
+        setCurrentUser(data);
+        closeAllPopups();
+      })
+      .catch(console.error);
   }
 
   // function handleCardLike(card) {
@@ -85,6 +95,12 @@ function App() {
         />
         <Footer />
 
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
+
         <PopupWithForm
           isOpen={isAddPlacePopupOpen}
           name="place-add"
@@ -113,38 +129,6 @@ function App() {
               required
             />
             <span className="form__field-error" id="error-place-image"></span>
-          </label>
-        </PopupWithForm>
-
-        <PopupWithForm
-          isOpen={isEditProfilePopupOpen}
-          name="user-info-edit"
-          title="Редактировать профиль"
-          onClose={closeAllPopups}
-        >
-          <label className="form__item">
-            <input
-              className="form__field"
-              type="text"
-              name="user-nickname"
-              placeholder="Имя"
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <span className="form__field-error" id="error-user-nickname"></span>
-          </label>
-          <label className="form__item">
-            <input
-              className="form__field"
-              type="text"
-              name="user-description"
-              placeholder="О себе"
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <span className="form__field-error" id="error-user-description"></span>
           </label>
         </PopupWithForm>
 

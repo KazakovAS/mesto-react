@@ -73,9 +73,13 @@ function App() {
       .catch(console.error);
   }
 
-  function handleDeleteClick(cardId) {
-    // setCardDeleteId(cardId);
-    // setPopupConfirmationOpen(true);
+  function handleDeleteClick(card) {
+    api.deleteCard(card)
+      .then(() => {
+        setCards(state => state.filter(currentCard => currentCard._id !== card));
+        closeAllPopups();
+      })
+      .catch(console.error);
   }
 
   function handleAddPlaceSubmit({ name, link }) {

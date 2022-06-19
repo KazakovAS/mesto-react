@@ -1,7 +1,9 @@
 function PopupWithForm(props, { buttonText="Сохранить" }) {
+  const { isOpen, onClose, name, onSubmit, title, children } = props;
+
   return (
     <section
-      className={`popup ${props.isOpen && 'popup_is-opened'}`}
+      className={`popup ${isOpen ? 'popup_is-opened' : ''}`}
       role="dialog"
     >
       <div className="popup__container">
@@ -9,16 +11,16 @@ function PopupWithForm(props, { buttonText="Сохранить" }) {
           className="popup__close-button"
           aria-label="Закрыть окно"
           type="button"
-          onClick={props.onClose}
+          onClick={onClose}
         >
         </button>
 
-        <form className="form" name={`${props.name}-form`} action="" method="POST" noValidate onSubmit={props.onClose}>
+        <form className="form" name={`${name}-form`} action="" method="POST" noValidate onSubmit={onSubmit}>
           <h2 className="form__title">
-            { props.title }
+            { title }
           </h2>
 
-          { props.children }
+          { children }
 
           <button className="form__submit">{ buttonText }</button>
         </form>
